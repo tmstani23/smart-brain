@@ -3,8 +3,8 @@
 A simple React fullstack app that allows a user to detect faces in an image.
 
 ## Features
--Login
--Register
+* Login
+* Register
 -Input image
 -Profile
 -Detect Faces
@@ -19,10 +19,11 @@ A simple React fullstack app that allows a user to detect faces in an image.
 ##Installation
 1. Clone this repo
 2. Run `npm install`
-3. Run `npm start`
-4. You must add your own API key in the `controllers/image.js` file to connect to Clarifai API.
-
-You can grab Clarifai API key [here](https://www.clarifai.com/)
+3. You must add your own API key in the `controllers/image.js` file to connect to Clarifai API.
+* You can grab Clarifai API key [here](https://www.clarifai.com/)
+4. Edit the .env file in the server folder with your Postgres database information to connect to local database.
+5. Cd server run `npm start`
+6. Cd client run `npm start`
 
 ** Make sure you use postgreSQL instead of mySQL for this code base.
 

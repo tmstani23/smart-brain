@@ -22,7 +22,8 @@ A simple React fullstack app that allows a user to detect faces in an image.
 2. Run `npm install`
 3. You must add your own API key in the `controllers/image.js` file to connect to Clarifai API.
 * You can grab Clarifai API key [here](https://www.clarifai.com/)
-4. Edit the .env file in the server folder with your Postgres database information to connect to local database.
+4. Create a .env file in the server folder with your Postgres database information to connect to local database.
+* It should match the process.env variables in the server.js file.
 5. Cd server run `npm start`
 6. Cd client run `npm start`
 

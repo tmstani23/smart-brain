@@ -5,16 +5,17 @@ A simple React fullstack app that allows a user to detect faces in an image.
 ## Features
 * Login
 * Register
--Input image
--Profile
--Detect Faces
+* Input image
+* Profile
+* Detect Faces
 
 ## Tech used
--React
--Node
--Clairify Api
--Express
--PostgresSQL
+* CSS Animations
+* React
+* Node
+* Clairify Api
+* Express
+* PostgresSQL
 
 ##Installation
 1. Clone this repo
@@ -25,7 +26,7 @@ A simple React fullstack app that allows a user to detect faces in an image.
 5. Cd server run `npm start`
 6. Cd client run `npm start`
 
-** Make sure you use postgreSQL instead of mySQL for this code base.
+* Make sure you use postgreSQL instead of mySQL for this code base.
 
 Type "services.msc" in run popup(windows + R). 
 This will show all #services running Select Postgres service from list and click on start/stop/restart.

@@ -1,0 +1,40 @@
+#Notes: must rebuild whenever changes are made to any of the docker image files.
+    #It is important to have spacing and syntax correct in docker-compose file or it won't work.
+
+#Create docker container
+docker build -t awesome_container .
+
+#Enter docker container shell
+docker run -it awesome_container
+
+#run docker container and forward localhost to port 3000
+#allows for exposing the container endpoint 
+#and accessing the app from outside the container
+docker run -it -p 3000:3000 awesome_container
+
+#run docker container in background
+docker run -it -d awesome_container
+
+#display docker container and ports
+docker ps
+
+#go into shell using docker container id
+docker exec -it 115668b998af sh
+
+#exit from inside shell
+exit
+
+#close docker container using container id
+docker stop 115668b998af
+
+#build docker-compose file
+docker-compose build
+
+#run docker compose build 
+docker-compose run smart-brain-api
+
+#close all docker-compose containers
+docker-compose down
+
+#build, recreate and start docker compose.  Also auto-rebuilds on changes
+docker-compose-up

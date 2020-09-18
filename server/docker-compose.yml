@@ -1,0 +1,12 @@
+version: "3.6"
+
+services: 
+    smart-brain-api: 
+        container_name: backend
+        # image: node:latest
+        build: ./
+        command: npm start
+        working_dir: /usr/src/smart-brain-api
+        ports:
+        - "3000:3000"
+        

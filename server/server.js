@@ -13,18 +13,24 @@ const image = require('./controllers/image');
 
 const db = knex({
   client: 'pg',
-  connection: {
-    host : process.env.DB_HOST,
-    user : process.env.DB_OWNER,
-    password : process.env.DB_PASS,
-    database : process.env.DATABASE,
-  },
+  // connection: {
+  //   host : process.env.DB_HOST,
+  //   user : process.env.DB_OWNER,
+  //   password : process.env.DB_PASS,
+  //   database : process.env.DATABASE,
+  // },
+  connection: process.env.POSTGRES_URI
+  
 });
+
+console.log(process.env.DB_HOST, process.env.POSTGRES_URI)
 
 const app = express();
 app.use(morgan('combined'));
 app.use(cors())
 app.use(bodyParser.json());
+
+console.log('test live update');
 
 app.get('/', (req, res)=> { 
   console.log('server working!');

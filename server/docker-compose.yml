@@ -1,12 +1,28 @@
 version: "3.6"
 
 services: 
+    #Backend Api
     smart-brain-api: 
         container_name: backend
-        # image: node:latest
         build: ./
         command: npm start
         working_dir: /usr/src/smart-brain-api
+        environment:
+            POSTGRES_URI: process.env.POSTGRES_URI
         ports:
         - "3000:3000"
+        #volumes maps localhost files to docker container for live code updates
+        volumes:
+        - ./:/usr/src/smart-brain-api
+    #Postgres Database
+    postgres:
+        image: postgres
+        environment: 
+            POSTGRES_PASSWORD: process.env.DB_PASS
+            POSTGRES_USER: process.env.DB_OWNER
+            POSTGRES_DB: process.env.DATABASE
+            POSTGRES_HOST: postgres
+        ports: 
+        - "5432:5432"
+
         

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
-const pg = require('pg');
+const morgan = require('morgan');
 
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
@@ -13,24 +13,31 @@ const image = require('./controllers/image');
 
 const db = knex({
   client: 'pg',
-  connection: {
-    host : process.env.DB_HOST,
-    user : process.env.DB_OWNER,
-    password : process.env.DB_PASS,
-    database : process.env.DATABASE,
-  },
+  // connection: {
+  //   host : process.env.DB_HOST,
+  //   user : process.env.DB_OWNER,
+  //   password : process.env.DB_PASS,
+  //   database : process.env.DATABASE,
+  // },
+  connection: process.env.POSTGRES_URI
+  
 });
 
+console.log(process.env.DB_HOST, process.env.POSTGRES_URI)
+
 const app = express();
+app.use(morgan('combined'));
 app.use(cors())
 app.use(bodyParser.json());
 
+console.log('test live update');
+
 app.get('/', (req, res)=> { 
+  console.log('server working!');
   res.send(db.users) 
 })
 app.post('/signin', signin.handleSignin(db, bcrypt))
 app.post('/register', (req, res) => { 
-  
   register.handleRegister(req, res, db, bcrypt) 
 })
 app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db)})

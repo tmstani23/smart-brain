@@ -8,4 +8,7 @@ import 'tachyons';
 import './index.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
+//ReactDOM.render(<Modal />, document.getElementById('modal-root'));
+
+
 registerServiceWorker();

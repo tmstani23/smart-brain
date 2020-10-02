@@ -42,13 +42,12 @@ app.use(morgan('combined'));
 app.use(cors(corsOptions))
 app.use(bodyParser.json());
 
-console.log(whitelist[0]);
 
 app.get('/', (req, res)=> { 
   console.log('server working!');
   res.send(db.users) 
 })
-app.post('/signin', signin.handleSignin(db, bcrypt))
+app.post('/signin', signin.signinAuthentication(db, bcrypt))
 app.post('/register', (req, res) => { 
   register.handleRegister(req, res, db, bcrypt) 
 })

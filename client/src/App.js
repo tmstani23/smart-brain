@@ -48,37 +48,80 @@ class App extends Component {
     this.state = initialState;
   }
 
+  componentDidMount() {
+    const token = window.sessionStorage.getItem('token');
+    //check if auth token exists and if so set auth headers on server
+    if (token) {
+      fetch('http://localhost:3000/signin', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data && data.id) {
+          fetch(`http://localhost:3000/profile/${data.id}`, {
+            method: 'get',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            }
+          })
+            .then(res => res.json())
+            .then(user => {
+              if(user && user.email) {
+                this.loadUser(user)
+                //Redirect to home page
+                this.onRouteChange('home')
+              }
+            })
+        }
+      })
+      .catch(console.log)
+    }
+  }
+
   loadUser = (data) => {
     this.setState({user: {
       id: data.id,
       name: data.name,
       email: data.email,
       entries: data.entries,
-      joined: data.joined
+      joined: data.joined,
+      age: data.age,
+      pet: data.pet
     }})
   }
 
   calculateFaceLocation = (data) => {
-    const faceDimensions = data.outputs[0].data.regions.map((face) => {
-      const image = document.getElementById('inputimage');
-      const width = Number(image.width);
-      const height = Number(image.height);
-      const clairifaiFace = face.region_info.bounding_box;
-      
-      return {
-        leftCol: clairifaiFace.left_col * width,
-        topRow: clairifaiFace.top_row * height,
-        rightCol: width - (clairifaiFace.right_col * width),
-        bottomRow: height - (clairifaiFace.bottom_row * height),
-      }
-    })
-    return [...faceDimensions]
-
+    if(data && data.outputs) {
+      const faceDimensions = data.outputs[0].data.regions.map((face) => {
+        const image = document.getElementById('inputimage');
+        const width = Number(image.width);
+        const height = Number(image.height);
+        const clairifaiFace = face.region_info.bounding_box;
+        
+        return {
+          leftCol: clairifaiFace.left_col * width,
+          topRow: clairifaiFace.top_row * height,
+          rightCol: width - (clairifaiFace.right_col * width),
+          bottomRow: height - (clairifaiFace.bottom_row * height),
+        }
+      })
+      return [...faceDimensions]
+    }
+    
+    return;
+    
   }
 
   displayFaceBox = (boxes) => {
+    if(boxes) {
+      this.setState({boxes: boxes});
+    }
     
-    this.setState({boxes: boxes});
   }
 
   onInputChange = (event) => {
@@ -89,7 +132,10 @@ class App extends Component {
     this.setState({imageUrl: this.state.input});
       fetch('http://localhost:3000/imageurl', {
         method: 'post',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': window.sessionStorage.getItem('token')
+        },
         body: JSON.stringify({
           input: this.state.input
         })
@@ -99,7 +145,10 @@ class App extends Component {
         if (response) {
           fetch('http://localhost:3000/image', {
             method: 'put',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': window.sessionStorage.getItem('token')
+            },
             body: JSON.stringify({
               id: this.state.user.id
             })
@@ -111,7 +160,6 @@ class App extends Component {
             .catch(console.log)
 
         }
-        //console.log(response);
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
       .catch(err => console.log(err));
@@ -119,6 +167,17 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if (route === 'signout') {
+      //reset token
+      window.sessionStorage.setItem('token', null);
+      //disable authorization
+      fetch('http://localhost:3000/signin', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': null
+        }
+      })
+      
       return this.setState(initialState)
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
@@ -160,6 +219,8 @@ class App extends Component {
               
               <Rank
                 name={this.state.user.name}
+                age={this.state.user.age}
+                pet={this.state.user.pet}
                 entries={this.state.user.entries}
               />
               <ImageLinkForm

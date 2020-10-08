@@ -15,7 +15,7 @@ class ProfileIcon extends React.Component {
 
     render() {
         return (
-            <div className="pa2 ptc">
+            <div className="pa2 pr6 ptc">
                 <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle 
                     tag="span"

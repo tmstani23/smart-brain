@@ -9,6 +9,8 @@ services:
         working_dir: /usr/src/smart-brain-api
         environment:
             POSTGRES_URI: postgres://tim:bluebird123@postgres:5432/smart-brain-api
+            REDIS_URI: redis://redis:6379
+            JWT_SECRET: hax2themax
         ports:
         - "3000:3000"
         #volumes maps localhost files to docker container for live code updates
@@ -25,6 +27,12 @@ services:
         build: ./postgres
         ports: 
         - "5432:5432"
+
+    #Redis Database
+    redis:
+        image: redis
+        ports: 
+        - "6379:6379"
 
 
 

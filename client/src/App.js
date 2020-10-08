@@ -89,7 +89,9 @@ class App extends Component {
       name: data.name,
       email: data.email,
       entries: data.entries,
-      joined: data.joined
+      joined: data.joined,
+      age: data.age,
+      pet: data.pet
     }})
   }
 
@@ -165,6 +167,17 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if (route === 'signout') {
+      //reset token
+      window.sessionStorage.setItem('token', null);
+      //disable authorization
+      fetch('http://localhost:3000/signin', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': null
+        }
+      })
+      
       return this.setState(initialState)
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
@@ -206,6 +219,8 @@ class App extends Component {
               
               <Rank
                 name={this.state.user.name}
+                age={this.state.user.age}
+                pet={this.state.user.pet}
                 entries={this.state.user.entries}
               />
               <ImageLinkForm

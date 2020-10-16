@@ -20,6 +20,7 @@ A simple React fullstack app that allows a user to detect faces in an image.
 * Serverless
 * Tachyons
 * Redis
+=======
 
 ## Installation
 1. Clone this repo
@@ -38,4 +39,3 @@ This will show all #services running Select Docker service from list and click o
 
 ### This app was created as part of The Complete Junior to Senior course on Udemy
 https://www.udemy.com/course/the-complete-junior-to-senior-web-developer-roadmap/
-
